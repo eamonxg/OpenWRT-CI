@@ -168,6 +168,9 @@ jobs:
             cat $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt $GITHUB_WORKSPACE/Config/GENERAL.txt >> .config
           fi
 
+          sed -i -e '/^CONFIG_LUCI_MINIFY_CSS=/d' -e '/^# CONFIG_LUCI_MINIFY_CSS is not set/d' .config && echo 'CONFIG_LUCI_MINIFY_CSS=n' >> .config
+          sed -i -e '/^CONFIG_LUCI_CSSTIDY=/d' -e '/^# CONFIG_LUCI_CSSTIDY is not set/d' .config && echo 'CONFIG_LUCI_CSSTIDY=n' >> .config
+          
           $GITHUB_WORKSPACE/Scripts/Settings.sh
 
           make defconfig -j$(nproc) && make clean -j$(nproc)
